@@ -31,6 +31,7 @@
             this.txtTestLog = new System.Windows.Forms.RichTextBox();
             this.lblVersion = new System.Windows.Forms.Label();
             this.cmbVersion = new System.Windows.Forms.ComboBox();
+            this.btnTest = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // txtTestLog
@@ -40,7 +41,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTestLog.Location = new System.Drawing.Point(12, 37);
             this.txtTestLog.Name = "txtTestLog";
-            this.txtTestLog.Size = new System.Drawing.Size(769, 301);
+            this.txtTestLog.Size = new System.Drawing.Size(730, 390);
             this.txtTestLog.TabIndex = 0;
             this.txtTestLog.Text = "";
             // 
@@ -61,14 +62,26 @@
             this.cmbVersion.FormattingEnabled = true;
             this.cmbVersion.Location = new System.Drawing.Point(84, 6);
             this.cmbVersion.Name = "cmbVersion";
-            this.cmbVersion.Size = new System.Drawing.Size(697, 25);
+            this.cmbVersion.Size = new System.Drawing.Size(577, 25);
             this.cmbVersion.TabIndex = 2;
+            // 
+            // btnTest
+            // 
+            this.btnTest.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnTest.Location = new System.Drawing.Point(667, 6);
+            this.btnTest.Name = "btnTest";
+            this.btnTest.Size = new System.Drawing.Size(75, 23);
+            this.btnTest.TabIndex = 3;
+            this.btnTest.Text = "Test";
+            this.btnTest.UseVisualStyleBackColor = true;
+            this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
             // 
             // FormulaTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(793, 350);
+            this.ClientSize = new System.Drawing.Size(754, 439);
+            this.Controls.Add(this.btnTest);
             this.Controls.Add(this.cmbVersion);
             this.Controls.Add(this.lblVersion);
             this.Controls.Add(this.txtTestLog);
@@ -85,5 +98,6 @@
         private RichTextBox txtTestLog;
         private Label lblVersion;
         private ComboBox cmbVersion;
+        private Button btnTest;
     }
 }
