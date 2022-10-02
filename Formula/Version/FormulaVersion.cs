@@ -14,6 +14,11 @@ namespace Formula
     {
 
         /// <summary>
+        /// 版本V1.0
+        /// </summary>
+        FV10 = 0xF010,
+
+        /// <summary>
         /// 没有版本
         /// </summary>
         None = 0xF000,
