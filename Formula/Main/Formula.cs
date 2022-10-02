@@ -43,6 +43,26 @@ namespace Formula
             }
 
             //版本实例
+            Formula oFormula = Calculate(enVersion);
+
+            //解析并求解字符算术表达式
+            if (null != oFormula)
+            {
+                return oFormula.Calculate(strFormula);
+            }
+
+            //返回结果
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// 获取字符算术表达式版本实例
+        /// </summary>
+        /// <param name="enVersion">版本</param>
+        /// <returns>版本实例</returns>
+        public static Formula Calculate(FormulaVersion enVersion)
+        {
+            //版本实例
             Formula oFormula = null;
             {
                 switch (enVersion)
@@ -57,19 +77,78 @@ namespace Formula
                 }
             }
 
-            //解析并求解字符算术表达式
-            if (null != oFormula)
+            //
+            return oFormula;
+        }
+
+
+        /// <summary>
+        /// 求解字符算术表达式
+        /// </summary>
+        /// <param name="strFormula">字符算术表达式</param>
+        /// <returns>结果</returns>
+        public string Calculate(string strFormula)
+        {
+            //检查
+            if (string.IsNullOrEmpty(strFormula))
             {
-                oFormula.BeginAnalysis();
-                if (!oFormula.Analysis(strFormula, oFormula.BeginCalculate))
+                return string.Empty;
+            }
+
+            //解析并求解字符算术表达式
+            {
+                this.BeginAnalysis();
+                if (!this.Analysis(strFormula, this.BeginCalculate))
                 {
-                    return oFormula.EndCalculate();
+                    return this.EndCalculate();
                 }
             }
 
             //返回结果
             return string.Empty;
         }
+
+        /// <summary>
+        /// 结束求解字符算术表达式
+        /// </summary>
+        /// <returns>结果</returns>
+        protected virtual string EndCalculate()
+        {
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// 开始求解字符算术表达式
+        /// </summary>
+        /// <param name="strIndiv">单体操作符</param>
+        protected virtual void BeginCalculate(string strIndiv)
+        {
+            Console.WriteLine(strIndiv);
+        }
+
+
+        /// <summary>
+        /// 解析字符算术表达式
+        /// </summary>
+        /// <param name="strFormula">字符算术表达式</param>
+        /// <param name="acCallback">解析回调</param>
+        /// <returns>状态</returns>
+        protected virtual bool Analysis(string strFormula, Action<string> acCallback)
+        {
+            Console.WriteLine(strFormula);
+
+            return true;
+        }
+
+        /// <summary>
+        /// 开始解析字符算术表达式
+        /// </summary>
+        private void BeginAnalysis()
+        {
+            this.m_stackOperand.Clear();
+            this.m_stackOperator.Clear();
+        }
+
 
         /// <summary>
         /// 计算字符算术表达式
@@ -217,46 +296,6 @@ namespace Formula
             throw new NotSupportedException(string.Format("Operator '{0}' is NOT supported.", strOperator));
         }
 
-
-        /// <summary>
-        /// 结束求解字符算术表达式
-        /// </summary>
-        /// <returns>结果</returns>
-        protected virtual string EndCalculate()
-        {
-            return string.Empty;
-        }
-
-        /// <summary>
-        /// 开始求解字符算术表达式
-        /// </summary>
-        /// <param name="strIndiv">单体操作符</param>
-        protected virtual void BeginCalculate(string strIndiv)
-        {
-            Console.WriteLine(strIndiv);
-        }
-
-        /// <summary>
-        /// 解析字符算术表达式
-        /// </summary>
-        /// <param name="strFormula">字符算术表达式</param>
-        /// <param name="acCallback">解析回调</param>
-        /// <returns>状态</returns>
-        protected virtual bool Analysis(string strFormula, Action<string> acCallback)
-        {
-            Console.WriteLine(strFormula);
-
-            return true;
-        }
-
-        /// <summary>
-        /// 开始解析字符算术表达式
-        /// </summary>
-        private void BeginAnalysis()
-        {
-            this.m_stackOperand.Clear();
-            this.m_stackOperator.Clear();
-        }
 
     }
 }
