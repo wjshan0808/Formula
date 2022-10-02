@@ -1,4 +1,5 @@
 ﻿using Formula;
+using Formula.Version;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,6 +47,10 @@ namespace Formula
             {
                 switch (enVersion)
                 {
+                    //V1.0
+                    case FormulaVersion.FV10:
+                        oFormula = new Formula_V1_0();
+                        break;
                     //
                     case FormulaVersion.None:
                         break;
