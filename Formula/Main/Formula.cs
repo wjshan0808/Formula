@@ -66,6 +66,152 @@ namespace Formula
             return string.Empty;
         }
 
+        /// <summary>
+        /// 计算字符算术表达式
+        /// </summary>
+        /// <param name="strOperandA">操作数A</param>
+        /// <param name="strOperator">操作符</param>
+        /// <param name="strOperandB">操作数B</param>
+        /// <returns>结果</returns>
+        protected virtual string Operate(string strOperandA, string strOperator, string strOperandB)
+        {
+            //检查
+            if ((false)
+                || (string.IsNullOrEmpty(strOperandA))
+                || (string.IsNullOrEmpty(strOperator))
+                || (string.IsNullOrEmpty(strOperandB)))
+            {
+                throw new ArgumentNullException("Parameters is NULL.");
+            }
+
+            //浮点类型
+            if ((false)
+                || (-1 != strOperandA.IndexOfAny(new char[] { '.', 'e', 'E' }))
+                || (-1 != strOperandB.IndexOfAny(new char[] { '.', 'e', 'E' })))
+            {
+                //A
+                double dOperandA = 0.0;
+                if (!double.TryParse(strOperandA, out dOperandA))
+                {
+                    throw new FormatException(string.Format("OperandA '{0}' invalid FORMAT.", strOperandA));
+                }
+                //B
+                double dOperandB = 0.0;
+                if (!double.TryParse(strOperandB, out dOperandB))
+                {
+                    throw new FormatException(string.Format("OperandB '{0}' invalid FORMAT.", strOperandB));
+                }
+
+                return OperateDecimal(dOperandA, strOperator, dOperandB).ToString();
+            }
+            //整数类型
+            else
+            {
+                //A
+                long lOperandA = 0x00;
+                if (!long.TryParse(strOperandA, out lOperandA))
+                {
+                    throw new FormatException(string.Format("OperandA '{0}' invalid FORMAT.", strOperandA));
+                }
+                //B
+                long lOperandB = 0x00;
+                if (!long.TryParse(strOperandB, out lOperandB))
+                {
+                    throw new FormatException(string.Format("OperandB '{0}' invalid FORMAT.", strOperandB));
+                }
+
+                return OperateInteger(lOperandA, strOperator, lOperandB).ToString();
+            }
+        }
+
+        /// <summary>
+        /// 计算浮点字符算术表达式
+        /// </summary>
+        /// <param name="strOperandA">操作数A</param>
+        /// <param name="strOperator">操作符</param>
+        /// <param name="strOperandB">操作数B</param>
+        /// <returns>结果</returns>
+        private double OperateDecimal(double dOperandA, string strOperator, double dOperandB)
+        {
+            //Operate
+            {
+                if (false)
+                {
+
+                }
+                else if ("+" == strOperator)
+                {
+                    return (dOperandA + dOperandB);
+                }
+                else if ("-" == strOperator)
+                {
+                    return (dOperandA - dOperandB);
+                }
+                else if ("*" == strOperator)
+                {
+                    return (dOperandA * dOperandB);
+                }
+                else if ("/" == strOperator)
+                {
+                    if (0.0 == dOperandB)
+                    {
+                        throw new DivideByZeroException("Parameter OperandB is ZERO.");
+                    }
+                    return (dOperandA / dOperandB);
+                }
+                else
+                {
+                }
+            }
+
+            //无效的操作符
+            throw new NotSupportedException(string.Format("Operator '{0}' is NOT supported.", strOperator));
+        }
+
+        /// <summary>
+        /// 计算整型字符算术表达式
+        /// </summary>
+        /// <param name="strOperandA">操作数A</param>
+        /// <param name="strOperator">操作符</param>
+        /// <param name="strOperandB">操作数B</param>
+        /// <returns>结果</returns>
+        private long OperateInteger(long lOperandA, string strOperator, long lOperandB)
+        {
+            //Operate
+            {
+                if (false)
+                {
+
+                }
+                else if ("+" == strOperator)
+                {
+                    return (lOperandA + lOperandB);
+                }
+                else if ("-" == strOperator)
+                {
+                    return (lOperandA - lOperandB);
+                }
+                else if ("*" == strOperator)
+                {
+                    return (lOperandA * lOperandB);
+                }
+                else if ("/" == strOperator)
+                {
+                    if (0x00 == lOperandB)
+                    {
+                        throw new DivideByZeroException("Parameter OperandB is ZERO.");
+                    }
+                    return (lOperandA / lOperandB);
+                }
+                else
+                {
+                }
+            }
+
+            //无效的操作符
+            throw new NotSupportedException(string.Format("Operator '{0}' is NOT supported.", strOperator));
+        }
+
 
         /// <summary>
         /// 结束求解字符算术表达式
