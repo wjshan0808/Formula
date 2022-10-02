@@ -140,14 +140,14 @@ namespace Formula.Version
             //检查
             if (string.IsNullOrEmpty(strFormula))
             {
-                return false;
+                return true;
             }
 
             //去除空格干扰
             strFormula = strFormula.Replace(" ", "");
             if (string.IsNullOrEmpty(strFormula))
             {
-                return false;
+                return true;
             }
 
             //当前字符索引
