@@ -140,14 +140,14 @@ namespace Formula.Version
             //检查
             if (string.IsNullOrEmpty(strFormula))
             {
-                return true;
+                return false;
             }
 
             //去除空格干扰
             strFormula = strFormula.Replace(" ", "");
             if (string.IsNullOrEmpty(strFormula))
             {
-                return true;
+                return false;
             }
 
             //当前字符索引
@@ -250,7 +250,7 @@ namespace Formula.Version
             }//End_While
             
             //
-            return true;
+            return false;
         }
 
     }
