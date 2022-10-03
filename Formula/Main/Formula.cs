@@ -67,6 +67,10 @@ namespace Formula
             {
                 switch (enVersion)
                 {
+                    //V1.1
+                    case FormulaVersion.FV11:
+                        oFormula = new Formula_V1_1();
+                        break;
                     //V1.0
                     case FormulaVersion.FV10:
                         oFormula = new Formula_V1_0();
