@@ -27,6 +27,10 @@ namespace Formula
 
             switch (enVersion)
             {
+                case FormulaVersion.FV11:
+                    TEST_V10();
+                    TEST_V11();
+                    break;
                 case FormulaVersion.FV10:
                     TEST_V10();
                     break;
@@ -37,6 +41,134 @@ namespace Formula
             }
         }
 
+
+        public void TEST_V11()
+        {
+            string strFormula = string.Empty;
+            string strResult = string.Empty;
+            double dResult = 0.0;
+
+            //
+            TEST_Version(FormulaVersion.FV11);
+            Formula oFormula = Formula.Calculate(FormulaVersion.FV11);
+
+            //科学数
+            strFormula = " 0 e2 ";
+            dResult = 0e2;
+            TEST_Item(strFormula, dResult, oFormula.Calculate(strFormula));
+            strFormula = " 1e-3 ";
+            dResult = 1e-3;
+            TEST_Item(strFormula, dResult, oFormula.Calculate(strFormula));
+            strFormula = " 1e+4 ";
+            dResult = 1e+4;
+            TEST_Item(strFormula, dResult, oFormula.Calculate(strFormula));
+
+            //有符号科学数
+            strFormula = "- 1e5 ";
+            dResult = -1e5;
+            TEST_Item(strFormula, dResult, oFormula.Calculate(strFormula));
+            strFormula = "+ 1e- 6  ";
+            dResult = +1e-6;
+            TEST_Item(strFormula, dResult, oFormula.Calculate(strFormula));
+            strFormula = " -1e +7 ";
+            dResult = -1e+7;
+            TEST_Item(strFormula, dResult, oFormula.Calculate(strFormula));
+
+            //括号
+            strFormula = "(- 0 ) ";
+            dResult = (-0);
+            TEST_Item(strFormula, dResult, oFormula.Calculate(strFormula));
+            strFormula = " (- 1e0 )";
+            dResult = (-1e0);
+            TEST_Item(strFormula, dResult, oFormula.Calculate(strFormula));
+
+            //括号单运算
+            strFormula = "(-1- 0 ) ";
+            dResult = (-1 - 0);
+            TEST_Item(strFormula, dResult, oFormula.Calculate(strFormula));
+            strFormula = " (1.2/ - 3e04 )";
+            dResult = (1.2 / -3e04);
+            TEST_Item(strFormula, dResult, oFormula.Calculate(strFormula));
+
+            //括号双运算
+            strFormula = " (+ 2+- 1- -0 ) ";
+            dResult = (+2 + -1 - -0);
+            TEST_Item(strFormula, dResult, oFormula.Calculate(strFormula));
+            strFormula = " (-0.5 *+1.2/ - 3 e04 )";
+            dResult = (-0.5 * +1.2 / -3e04);
+            TEST_Item(strFormula, dResult, oFormula.Calculate(strFormula));
+
+            //括号混合运算
+            strFormula = " (-0.5 *+1.2/ - 3 e04 + 2+- 1- -0 +6 ) ";
+            dResult = (-0.5 * +1.2 / -3e04 + 2 + -1 - -0 + 6) ;
+            TEST_Item(strFormula, dResult, oFormula.Calculate(strFormula));
+            strFormula = " (6.7++7.6--8.9-0.5 *+7.9/ - 3 e-2 )";
+            dResult = (6.7 + +7.6 - -8.9 - 0.5 * +7.9 / -3e-2);
+            TEST_Item(strFormula, dResult, oFormula.Calculate(strFormula));
+            strFormula = " (-0.5 *+1.2/ - 3 e04 + 2+- 1- -0 +6 *6.7++7.6--8.9-0.5 *+7.9/ - 3 e-2 )";
+            dResult = (-0.5 * +1.2 / -3e04 + 2 + -1 - -0 + 6 * 6.7 + +7.6 - -8.9 - 0.5 * +7.9 / -3e-2);
+            TEST_Item(strFormula, dResult, oFormula.Calculate(strFormula));
+            strFormula = " (+6.7++7.6--8.9-0.5 *+7.9/ - 3 e-2 / -0.5 *+1.2/ - 3 e04 + 2+- 1- -0 +6 )";
+            dResult = (+6.7 + +7.6 - -8.9 - 0.5 * +7.9 / -3e-2 / -0.5 * +1.2 / -3e04 + 2 + -1 - -0 + 6);
+            TEST_Item(strFormula, dResult, oFormula.Calculate(strFormula));
+
+            //多括号单运算
+            strFormula = "((- 0 ) ++2.3)";
+            dResult = ((-0) + +2.3);
+            TEST_Item(strFormula, dResult, oFormula.Calculate(strFormula));
+            strFormula = "( ( - 2e01 )/ +4.5)";
+            dResult = ((-2e01) / +4.5);
+            TEST_Item(strFormula, dResult, oFormula.Calculate(strFormula));
+            strFormula = " (-1.2-(- 3 ) )";
+            dResult = (-1.2 - (-3));
+            TEST_Item(strFormula, dResult, oFormula.Calculate(strFormula));
+            strFormula = "(2E4/ ( + 3e01 ))";
+            dResult = (2E4 / (+3e01));
+            TEST_Item(strFormula, dResult, oFormula.Calculate(strFormula));
+
+            //多括号双运算
+            strFormula = "((+1- 0 ) ++2.3--4E-5)";
+            dResult = ((+1 - 0) + +2.3 - -4E-5);
+            TEST_Item(strFormula, dResult, oFormula.Calculate(strFormula));
+            strFormula = "( (-1E-2* - 2e01 )/ +4.5* 6.7)";
+            dResult = ((-1E-2 * -2e01) / +4.5 * 6.7);
+            TEST_Item(strFormula, dResult, oFormula.Calculate(strFormula));
+            strFormula = " (-1.2-(- 3 -+4E5) +- 5E6 )";
+            dResult = (-1.2 - (-3 - +4E5) + -5E6);
+            TEST_Item(strFormula, dResult, oFormula.Calculate(strFormula));
+            strFormula = "(+9*( -2E4/ + 3e01 ) /+5.2) ";
+            dResult = (+9 * (-2E4 / +3e01) / +5.2);
+            TEST_Item(strFormula, dResult, oFormula.Calculate(strFormula));
+
+            //多括号首尾运算
+            strFormula = "((+1- 0 ) ++2.3--4E-5)++7.6--8.9";
+            dResult = ((+1 - 0) + +2.3 - -4E-5) + +7.6 - -8.9;
+            TEST_Item(strFormula, dResult, oFormula.Calculate(strFormula));
+            strFormula = "- 1- -0 +((+1- 0 ) ++2.3--4E-5)";
+            dResult = -1 - -0 + ((+1 - 0) + +2.3 - -4E-5);
+            TEST_Item(strFormula, dResult, oFormula.Calculate(strFormula));
+            strFormula = " ( (+1* 0.2 /+3) /+2.3*-4E-5 )/+7.6*-8.9 ";
+            dResult = ((+1 * 0.2 / +3) / +2.3 * -4E-5) / +7.6 * -8.9;
+            TEST_Item(strFormula, dResult, oFormula.Calculate(strFormula));
+            strFormula = "- 1* -0.5 /((3.4/+1*- 1E2 ) *+2.3/-4E-5)";
+            dResult = -1 * -0.5 / ((3.4 / +1 * -1E2) * +2.3 / -4E-5);
+            TEST_Item(strFormula, dResult, oFormula.Calculate(strFormula));
+
+            //混合括号混合运算
+            strFormula = "- 1--0.5 /(3.4/ -0.3 +((+1- 0.3  *+2.3)--4E-5)*-4E-5 )/+7.6*-8.9 ";
+            dResult = -1 - -0.5 / (3.4 / -0.3 + ((+1 - 0.3 * +2.3) - -4E-5) * -4E-5) / +7.6 * -8.9;
+            TEST_Item(strFormula, dResult, oFormula.Calculate(strFormula));
+            strFormula = "+2.3*-4E-5 -( 1*-0.5 -(3.4/ -0.4 +(+1- 0.3  *+2.3)+-4E-5)*-4E-5 )/+7.6- 3e04 + 2 ";
+            dResult = +2.3 * -4E-5 - (1 * -0.5 - (3.4 / -0.4 + (+1 - 0.3 * +2.3) + -4E-5) * -4E-5) / +7.6 - 3e04 + 2;
+            TEST_Item(strFormula, dResult, oFormula.Calculate(strFormula));
+            strFormula = "-0.5 + - 3e-2 / (-0.5  -4E-5 -( (+1* 0.2 /+3-(3.4/+1*- 1E2  *+2.3)) /+2.3*-4E-5)) /+7.6*-8.9 ";
+            dResult = -0.5 + -3e-2 / (-0.5 - 4E-5 - ((+1 * 0.2 / +3 - (3.4 / +1 * -1E2 * +2.3)) / +2.3 * -4E-5)) / +7.6 * -8.9;
+            TEST_Item(strFormula, dResult, oFormula.Calculate(strFormula));
+            strFormula = "+2.3*-4E-5 -( 1*-0.5 -(3.4/ -0.6 +(+1- 0.3  *+2.3)+-4E-5)*-4E-5 )/+7.6- 3e04 + 2-0.5 + - 3e-2 / (-0.5  -4E-5 -( (+1* 0.2 /+3-(3.4/+1*- 1E2  *+2.3)) /+2.3*-4E-5)) -+7.6*-8.9 ";
+            dResult = +2.3 * -4E-5 - (1 * -0.5 - (3.4 / -0.6 + (+1 - 0.3 * +2.3) + -4E-5) * -4E-5) / +7.6 - 3e04 + 2 - 0.5 + -3e-2 / (-0.5 - 4E-5 - ((+1 * 0.2 / +3 - (3.4 / +1 * -1E2 * +2.3)) / +2.3 * -4E-5)) - +7.6 * -8.9;
+            TEST_Item(strFormula, dResult, oFormula.Calculate(strFormula));
+
+        }
 
         public void TEST_V10()
         {
