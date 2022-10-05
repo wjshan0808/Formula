@@ -14,6 +14,11 @@ namespace Formula
     {
 
         /// <summary>
+        /// 版本V1.2
+        /// </summary>
+        FV12 = 0xF012,
+
+        /// <summary>
         /// 版本V1.1
         /// </summary>
         FV11 = 0xF011,
